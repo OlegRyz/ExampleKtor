@@ -6,7 +6,7 @@ Simple RestAPI example on Kotlin using Ktor
 
 Checkout the project and run ./gradlew run
 
-After you see EXECUTING open http://127.0.0.1:8080. If you see a blank page then server is up and running.
+After you see EXECUTING open http://127.0.0.1:8080. If you see "Hello from Ktor" then server is up and running.
 
 ## Query API
 
@@ -27,7 +27,12 @@ With this allowed transitions:
 - Executing -> Waiting
 - Waiting -> Stopping
 
-API has a single PUT query http://127.0.0.1:8080/state that takes a JSON as a parameter. JSON hasonly one property "state"
+API has a PUT query http://127.0.0.1:8080/state that takes a JSON as a parameter. 
+JSON hasonly one property "state". 
+This query updates an internal value according to allowed transitions.
 
-For example:
+Body example:
 {"state": "Started"}
+
+You could get a current state by calling GET on http://127.0.0.1:8080/state
+
