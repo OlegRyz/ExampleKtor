@@ -1,5 +1,7 @@
 package example.statemachine
 
+import kotlinx.coroutines.delay
+
 class StateMachine(private var internalState:State = State.Stopped) {
 
     private val validTransitions = setOf(
@@ -13,10 +15,15 @@ class StateMachine(private var internalState:State = State.Stopped) {
     private val State.isValid
         get() = (internalState to this) in validTransitions
 
-    fun update(state: State) = if (state.isValid) {
+    suspend fun update(state: State) = if (state.isValid) {
+        pretendToWorkHard()
         internalState = state
         true
     } else {
+        pretendToWorkEvenHarder()
         false
     }
+
+    private suspend fun pretendToWorkHard() = delay(500)
+    private suspend fun pretendToWorkEvenHarder() = delay(1000)
 }

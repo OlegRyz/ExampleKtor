@@ -15,6 +15,7 @@ import io.ktor.response.*
 import io.ktor.routing.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import kotlinx.coroutines.async
 import kotlinx.html.*
 
 fun main() {
@@ -27,7 +28,7 @@ fun main() {
             put("/state") {
                 try {
                     val request = call.receive<StateSpecification>()
-                    if (stateMachine.update(request.state)) {
+                    if (async { stateMachine.update(request.state) }.await()) {
                         call.respond(HttpStatusCode.OK)
                     } else {
                         call.respond(HttpStatusCode.Conflict, "Cannot do transition to this state")
