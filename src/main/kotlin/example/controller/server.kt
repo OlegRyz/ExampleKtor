@@ -25,6 +25,15 @@ fun main() {
             install(ContentNegotiation) {
                 jackson()
             }
+
+            get("/") {
+                call.respondHtml(HttpStatusCode.OK) {
+                    body {
+                        +"Hello from Ktor"
+                    }
+                }
+            }
+
             put("/state") {
                 try {
                     val request = call.receive<StateSpecification>()
@@ -42,6 +51,10 @@ fun main() {
                 } catch (e: Exception) {
                     call.respond(HttpStatusCode.InternalServerError, e)
                 }
+            }
+
+            get("/state") {
+                call.respond(HttpStatusCode.OK, stateMachine.getState())
             }
         }
     }.start(wait = true)
