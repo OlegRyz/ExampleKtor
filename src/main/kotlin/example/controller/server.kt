@@ -17,26 +17,12 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import kotlinx.html.*
 
-fun HTML.index() {
-    head {
-        title("Hello from Ktor!")
-    }
-    body {
-        div {
-            +"Hello from Ktor"
-        }
-    }
-}
-
 fun main() {
     embeddedServer(Netty, port = 8080, host = "127.0.0.1") {
         routing {
             val stateMachine = StateMachine()
             install(ContentNegotiation) {
                 jackson()
-            }
-            get("/") {
-                call.respondHtml(HttpStatusCode.OK, HTML::index)
             }
             put("/state") {
                 try {
