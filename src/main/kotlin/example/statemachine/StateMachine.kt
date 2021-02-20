@@ -15,6 +15,8 @@ class StateMachine(private var internalState:State = State.Stopped) {
     private val State.isValid
         get() = (internalState to this) in validTransitions
 
+    fun getState() = internalState
+
     suspend fun update(state: State) = if (state.isValid) {
         pretendToWorkHard()
         internalState = state
